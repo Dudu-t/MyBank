@@ -1,5 +1,6 @@
 ﻿using MyBank.Domains.Entities;
 using MyBank.Domains.Interfaces;
+using MyBank.Infrastructure.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,46 +11,49 @@ namespace MyBank.Infrastructure.Repositories
 {
     public class AccountRepository : IAccountRepository
     {
-        private readonly IAccountRepository _accountRepository;
+        private readonly MyBankContext _bankContext;
 
-        public AccountRepository(IAccountRepository accountRepository)
+        public AccountRepository(MyBankContext bankContext)
         {
-            _accountRepository = accountRepository;
+            _bankContext = bankContext;
         }
 
         public void Add(Account account)
         {
-            throw new NotImplementedException();
+            _bankContext.Accounts.Add(account);
+            _bankContext.SaveChanges();
         }
 
         public void Delete(Account account)
         {
-            throw new NotImplementedException();
+            _bankContext.Accounts.Remove(account);
+            _bankContext.SaveChanges();
         }
 
         public IEnumerable<Account> GetAll()
         {
-            throw new NotImplementedException();
+            return _bankContext.Accounts;
         }
 
-        public Account GetByAgencyAndNumber(int agency, int number)
+        public Account GetByAgencyAndNumber(string agency, string number)
         {
-            throw new NotImplementedException();
+            return _bankContext.Accounts.Where(account => account.Agency == agency && account.Number == number).First();
         }
 
         public Account GetByCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            return _bankContext.Accounts.Where(account => account.Customers.Contains(customer)).First();
         }
 
         public Account GetById(int id)
         {
-            throw new NotImplementedException();
+            return _bankContext.Accounts.Where(account => account.Id == id).First();
         }
 
         public void Update(Account account)
         {
-            throw new NotImplementedException();
+            _bankContext.Update(account);
+            _bankContext.SaveChanges();
         }
     }
 }

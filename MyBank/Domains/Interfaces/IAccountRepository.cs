@@ -11,7 +11,7 @@ namespace MyBank.Domains.Interfaces
     {
         public IEnumerable<Account> GetAll();
         public Account GetById(int id);
-        public Account GetByAgencyAndNumber(int agency, int number);
+        public Account GetByAgencyAndNumber(string agency, string number);
         public Account GetByCustomer(Customer customer);
         public void Add(Account account);
         public void Update(Account account);
